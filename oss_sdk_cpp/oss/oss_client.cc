@@ -47,20 +47,23 @@ OssClient::~OssClient() {
 }
 
 OssClient::OssClient(const std::string& access_key_id,
-                     const std::string& access_key_secret)
-  : access_key_id_(access_key_id),
-    access_key_secret_(access_key_secret) {
-  unit_test_mode_ = false;
+	const std::string& access_key_secret)
+	: access_key_id_(access_key_id),
+	  access_key_secret_(access_key_secret) {
+	  unit_test_mode_ = false;
 }
+
 
 OssClient::OssClient(const std::string& endpoint,
                      const std::string& access_key_id,
                      const std::string& access_key_secret,
+					 const std::string& oss_token,
                      const ClientConfiguration& config)
   : access_key_id_(access_key_id),
     access_key_secret_(access_key_secret),
     endpoint_(endpoint),
-    client_config_(config) {
+    client_config_(config),
+	oss_token_(oss_token) {
   ParseEndpoint(endpoint_);
   engine_.reset(new HttpEngine(endpoint, config.http_config));
   unit_test_mode_ = false;
@@ -400,40 +403,14 @@ Status OssClient::PutString(const std::string& bucket_name,
 
 Status OssClient::PutObject(const std::string& bucket_name,
                             const std::string& key,
-                            const std::string& file_path,
-                            const ObjectMetadata* object_metadata) {
-  return PutObject(bucket_name, key, file_path, -1, object_metadata);
-}
-
-Status OssClient::PutObject(const std::string& bucket_name,
-                            const std::string& key,
-                            const std::string& file_path,
-                            int64_t stream_bytes,
-                            const ObjectMetadata* object_metadata) {
-  HttpEngineInput engine_input;
-  engine_input.headers[oss::http::kContentType] = kObjectDefaultContentType;
-  engine_input.method = kHttpPut;
-  engine_input.url = bucket_name + "." + endpoint_ + "/" + UrlEscape(key);
-  engine_input.input_filename = file_path;
-  engine_input.stream_bytes = stream_bytes;
-  if (object_metadata != NULL)
-    object_metadata->AddToParameterList(&engine_input.headers);
-  auto resource = "/" + bucket_name + "/" + key;
-
-  auto engine_output = ExecuteHttp(&engine_input, resource);
-  return engine_output.ToStatus();
-}
-
-Status OssClient::PutObject(const std::string& bucket_name,
-                            const std::string& key,
-                            std::ifstream* stream,
+                            std::iostream* stream,
                             const ObjectMetadata* object_metadata) {
   return PutObject(bucket_name, key, stream, -1, object_metadata);
 }
 
 Status OssClient::PutObject(const std::string& bucket_name,
                             const std::string& key,
-                            std::ifstream* stream,
+                            std::iostream* stream,
                             int64_t stream_bytes,
                             const ObjectMetadata* object_metadata) {
   HttpEngineInput engine_input;
@@ -639,33 +616,6 @@ Status OssClient::InitiateMultipartUpload(
   return status;
 }
 
-Status OssClient::UploadPart(const UploadPartRequest& request,
-                             UploadPartResult* result) {
-  auto& bucket_name = request.GetBucketName();
-  // must sign for this request.
-  auto query_string = request.BuildQueryString();
-
-  HttpEngineInput engine_input;
-  if (!request.GetMd5Digest().empty()) {
-    engine_input.headers[http::kContentMd5] = request.GetMd5Digest();
-  }
-
-  engine_input.method = kHttpPut;
-  engine_input.headers[oss::http::kContentType] = kObjectDefaultContentType;
-  engine_input.url = bucket_name + "." + endpoint_ + "/" + query_string;
-  auto resource = "/" + bucket_name + "/" + query_string;
-
-  engine_input.input_stream = request.GetInputStream();
-  engine_input.stream_bytes = request.GetPartSize();
-
-  auto engine_output =  ExecuteHttp(&engine_input, resource);
-  auto status = engine_output.ToStatus();
-  if (status.Ok()) {
-    result->ParseFromHeader(engine_output.headers);
-  }
-
-  return status;
-}
 
 Status OssClient::AppendObject(const AppendObjectRequest& request) {
   auto& bucket_name = request.GetBucketName();
@@ -860,6 +810,9 @@ HttpEngineOutput OssClient::ExecuteHttp(HttpEngineInput* input,
                                         const std::string& resource) {
   // prepend protocol to url.
   input->url.insert(0, protocol_);
+  if (!oss_token_.empty()) {
+	  input->headers[http::xOssSecurityToken] = oss_token_;
+  }
   std::string authorization = CalculateAuthorization(resource, *input);
   input->headers[http::kAuthorization] = authorization;
 

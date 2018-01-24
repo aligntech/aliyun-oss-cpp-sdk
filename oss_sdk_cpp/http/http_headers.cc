@@ -50,6 +50,7 @@ const char kOssCopySourceIfUnmodifiedSince[] =
   "x-oss-copy-source-if-unmodified-since";
 const char kOssCopySourceRange[] = "x-oss-copy-source-range";
 const char kOssMetadataDirective[] = "x-oss-metadata-directive";
+const char xOssSecurityToken[] = "x-oss-security-token";
 
 }  // namespace http
 }  // namespace oss

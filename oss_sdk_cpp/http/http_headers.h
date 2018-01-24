@@ -53,6 +53,7 @@ extern const char kOssCopySourceIfModifiedSince[];
 extern const char kOssCopySourceIfUnmodifiedSince[];
 extern const char kOssMetadataDirective[];
 extern const char kOssCopySourceRange[];
+extern const char xOssSecurityToken[];
 
 }  // namespace http
 }  // namespace oss

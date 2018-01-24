@@ -53,7 +53,7 @@ class HttpEngineInput {
   std::string input_filename;
 
   // upload data from this stream.
-  std::ifstream* input_stream;
+  std::iostream* input_stream;
 
   // how many bytes should read from stream, if -1, read to eof,
   // otherwise read stream_bytes exactly.
@@ -69,7 +69,7 @@ class HttpEngineInput {
   std::string output_path;
 
   // download to this stream.
-  std::ofstream* output_stream;
+  std::iostream* output_stream;
 
   friend class HttpEngine;
   friend class OssClient;

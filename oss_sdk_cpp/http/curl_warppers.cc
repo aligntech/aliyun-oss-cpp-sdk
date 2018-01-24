@@ -17,7 +17,7 @@
  * under the License.
  */
 
-#include <curl/curl.h>
+#include "curl.h"
 
 #include "oss_sdk_cpp/http/curl_warppers.h"
 

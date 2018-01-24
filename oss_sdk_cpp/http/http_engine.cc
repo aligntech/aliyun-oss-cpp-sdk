@@ -17,7 +17,7 @@
  * under the License.
  */
 
-#include <curl/curl.h>
+#include "curl.h"
 #include <algorithm>
 
 #include "oss_sdk_cpp/base/defer.h"
@@ -70,61 +70,26 @@ HttpEngineOutput HttpEngine::Execute(HttpEngineInput* input) {
   }
 
   // upload data from buffer or file stream.
-  bool upload = false;
-  std::ifstream input_stream;
-  if (input->input_buffer != NULL) {
-    // data is in a buffer.
-    curl_easy_setopt(curl_.Get(), CURLOPT_POSTFIELDSIZE,
-                     input->input_buffer->length());
-
-    curl_easy_setopt(curl_.Get(), CURLOPT_POSTFIELDS,
-                     input->input_buffer->c_str());
-  } else {
-    // data is in a file.
-    if (input->input_stream == NULL && !input->input_filename.empty()) {
-      // use filename.
-      OpenStream(&input_stream,
-                 input->input_filename,
-                 std::ios::in | std::ios::binary);
-      if (!input_stream) {
-        output.code = "OpenFileFailed";
-        return output;
-      }
-      input->input_stream = &input_stream;
-    }
-
-    std::ifstream* stream = input->input_stream;
-    if (stream != NULL) {
-      curl_easy_setopt(curl_.Get(), CURLOPT_READFUNCTION, ReadCallback);
-      curl_easy_setopt(curl_.Get(), CURLOPT_READDATA, input);
-      int64_t file_size = input->stream_bytes;
-      if (input->stream_bytes == -1) {
-        std::streampos orignal_pos = stream->tellg();
-        stream->seekg(0, std::ios::end);
-        file_size = static_cast<int64_t>(stream->tellg() - orignal_pos);
-        stream->clear();
-        stream->seekg(orignal_pos, std::ios::beg);
-      }
-      curl_easy_setopt(curl_.Get(),
-                       CURLOPT_INFILESIZE_LARGE,
-                       static_cast<curl_off_t>(file_size));
-      upload = true;
-    }
-  }
+	bool upload = false;
+	std::iostream* stream = input->input_stream;
+	if (stream != NULL) {
+		curl_easy_setopt(curl_.Get(), CURLOPT_READFUNCTION, ReadCallback);
+		curl_easy_setopt(curl_.Get(), CURLOPT_READDATA, input);
+		int64_t file_size = input->stream_bytes;
+		if (input->stream_bytes == -1) {
+		std::streampos orignal_pos = stream->tellg();
+		stream->seekg(0, std::ios::end);
+		file_size = static_cast<int64_t>(stream->tellg() - orignal_pos);
+		stream->clear();
+		stream->seekg(orignal_pos, std::ios::beg);
+		}
+		curl_easy_setopt(curl_.Get(),
+						CURLOPT_INFILESIZE_LARGE,
+						static_cast<curl_off_t>(file_size));
+		upload = true;
+	}
   header_list.AddHeader("Expect", "");
 
-  // download to stream
-  std::ofstream output_stream;
-  if (input->output_stream == NULL && !input->output_path.empty()) {
-    OpenStream(&output_stream,
-               input->output_path,
-               std::ios::out | std::ios::binary);
-    if (!output_stream) {
-      output.code = "OpenFileFailed";
-      return output;
-    }
-    input->output_stream = &output_stream;
-  }
 
   curl_easy_setopt(curl_.Get(), CURLOPT_URL, input->url.c_str());
   curl_easy_setopt(curl_.Get(), CURLOPT_CUSTOMREQUEST, input->method.c_str());
@@ -210,7 +175,7 @@ size_t HttpEngine::ReadCallback(void* buffer,
   if (input->stream_bytes == 0)
     return 0;
 
-  std::ifstream* stream = input->input_stream;
+  std::iostream* stream = input->input_stream;
   if (stream == NULL)
     return 0;
   if (stream->eof())

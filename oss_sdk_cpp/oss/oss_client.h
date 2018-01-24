@@ -79,11 +79,12 @@ class HttpEngine;
 class OssClient {
  public:
   OssClient(const std::string& access_key_id,
-            const std::string& access_key_secret);
+		 const std::string& access_key_secret);
 
   OssClient(const std::string& endpoint,
             const std::string& access_key_id,
             const std::string& access_key_secret,
+			const std::string& oss_token = "",
             const ClientConfiguration& config = ClientConfiguration());
 
   ~OssClient();
@@ -177,26 +178,15 @@ class OssClient {
                    const std::string & str,
                    const ObjectMetadata* object_metadata = NULL);
 
-  Status PutObject(const std::string & bucket_name,
-                   const std::string & key,
-                   const std::string & file_path,
+
+  Status PutObject(const std::string& bucket_name,
+                   const std::string& key,
+                   std::iostream* stream,
                    const ObjectMetadata* object_metadata = NULL);
 
   Status PutObject(const std::string& bucket_name,
                    const std::string& key,
-                   const std::string& file_path,
-                   int64_t stream_bytes,
-                   const ObjectMetadata* object_metadata = NULL);
-
-
-  Status PutObject(const std::string& bucket_name,
-                   const std::string& key,
-                   std::ifstream* stream,
-                   const ObjectMetadata* object_metadata = NULL);
-
-  Status PutObject(const std::string& bucket_name,
-                   const std::string& key,
-                   std::ifstream* stream,
+                   std::iostream* stream,
                    int64_t stream_bytes,
                    const ObjectMetadata* object_metadata = NULL);
 
@@ -229,8 +219,6 @@ class OssClient {
 
   Status InitiateMultipartUpload(const InitiateMultipartUploadRequest& request,
                                  InitiateMultipartUploadResult* result);
-
-  Status UploadPart(const UploadPartRequest& request, UploadPartResult* result);
 
   Status UploadPartCopy(const UploadPartCopyRequest& request,
                         UploadPartCopyResult* result);
@@ -265,6 +253,7 @@ class OssClient {
  private:
   std::string access_key_id_;
   std::string access_key_secret_;
+  std::string oss_token_;
   std::string endpoint_;
   std::string protocol_;
   std::string security_token_;

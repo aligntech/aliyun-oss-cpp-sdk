@@ -104,7 +104,7 @@ std::string ToUpper(oss::StringPiece str) {
 
 bool StringToBool(const std::string& str) {
   return !str.empty() &&
-         (stricmp(str.c_str(), "true") == 0 ||
+         (_stricmp(str.c_str(), "true") == 0 ||
           atoi(str.c_str()) != 0);
 }
 

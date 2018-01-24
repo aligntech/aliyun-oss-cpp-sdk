@@ -17,7 +17,7 @@
  * under the License.
  */
 
-#include <apr_strings.h>
+#include "apr_strings.h"
 #include <string>
 
 #include "oss_sdk_cpp/utils/string_utils.h"

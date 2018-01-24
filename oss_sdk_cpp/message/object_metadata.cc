@@ -17,7 +17,7 @@
  * under the License.
  */
 
-#include <apr_strings.h>
+#include "apr_strings.h"
 
 #include "oss_sdk_cpp/http/http_headers.h"
 #include "oss_sdk_cpp/utils/http_utils.h"

@@ -59,7 +59,7 @@ bool GetBucketLifecycleResult::DeserializeFromXml(const std::string& content) {
     node = rule_node->FirstChild("Status");
     if (node != NULL) {
       const char* status = GetXmlNodeText(node);
-      rule.SetEnabled(stricmp(status, "Enabled") == 0);
+      rule.SetEnabled(_stricmp(status, "Enabled") == 0);
     }
 
     TiXmlNode* expiration_node = rule_node->FirstChild("Expiration");

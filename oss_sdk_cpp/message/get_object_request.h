@@ -39,11 +39,7 @@ class GetObjectRequest {
 
   GetObjectRequest(const std::string& bucket_name,
                    const std::string& key,
-                   const std::string& file_path);
-
-  GetObjectRequest(const std::string& bucket_name,
-                   const std::string& key,
-                   std::ofstream* output_stream);
+                   std::iostream* output_stream);
 
   const std::string& GetBucket() const;
 
@@ -57,9 +53,9 @@ class GetObjectRequest {
 
   void SetFilePath(const std::string& file_path);
 
-  std::ofstream* GetOutputStream() const;
+  std::iostream* GetOutputStream() const;
 
-  void SetOutputStream(std::ofstream* stream);
+  void SetOutputStream(std::iostream* stream);
 
   OptionalRange GetRange() const;
 
@@ -86,7 +82,7 @@ class GetObjectRequest {
 
   std::string file_path_;
 
-  std::ofstream* output_stream_;
+  std::iostream* output_stream_;
   // header arguments.
   OptionalRange range_;
 

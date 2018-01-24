@@ -28,16 +28,10 @@
 
 namespace oss {
 
-GetObjectRequest::GetObjectRequest(const std::string& bucket_name,
-                                   const std::string& key,
-                                   const std::string& file_path)
-  : bucket_name_(bucket_name), key_(key), file_path_(file_path),
-    output_stream_(NULL) {
-}
 
 GetObjectRequest::GetObjectRequest(const std::string& bucket_name,
                                    const std::string& key,
-                                   std::ofstream* output_stream)
+                                   std::iostream* output_stream)
   : bucket_name_(bucket_name), key_(key), output_stream_(output_stream) {
 }
 
@@ -109,11 +103,11 @@ void GetObjectRequest::SetFilePath(const std::string& file_path) {
   file_path_ = file_path;
 }
 
-std::ofstream* GetObjectRequest::GetOutputStream() const {
+std::iostream* GetObjectRequest::GetOutputStream() const {
   return output_stream_;
 }
 
-void GetObjectRequest::SetOutputStream(std::ofstream* stream) {
+void GetObjectRequest::SetOutputStream(std::iostream* stream) {
   output_stream_ = stream;
 }
 

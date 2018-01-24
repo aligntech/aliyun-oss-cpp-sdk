@@ -21,9 +21,9 @@
 
 #include <stdint.h>
 
-#include <apr_base64.h>
-#include <apr_sha1.h>
-#include <apr_md5.h>
+#include "apr_base64.h"
+#include "apr_sha1.h"
+#include "apr_md5.h"
 
 #include <fstream>
 #include <memory>
