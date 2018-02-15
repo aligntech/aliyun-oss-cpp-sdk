@@ -32,6 +32,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>oss_sdk_cpp</RootNamespace>
     <ProjectName>oss_sdk_cpp</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -54,9 +55,9 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -127,7 +128,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
     <Linkage-libapr-iconv>static</Linkage-libapr-iconv>
     <Linkage-libapr-util>static</Linkage-libapr-util>
     <Linkage-libapr>static</Linkage-libapr>
@@ -171,7 +172,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>..\;$(SolutionDir)third_party\apr\beta\include\apr;$(SolutionDir)third_party\apr\beta\include\aprutil;$(SolutionDir)third_party\tinyxml\beta\include;$(SolutionDir)third_party\curl\7.56.1\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/we4706  %(AdditionalOptions)</AdditionalOptions>

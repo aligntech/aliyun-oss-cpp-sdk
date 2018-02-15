@@ -57,9 +57,6 @@
     <ClInclude Include="utils\utils.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="message\append_object_request.h">
-      <Filter>message</Filter>
-    </ClInclude>
     <ClInclude Include="message\bucket_cors.h">
       <Filter>message</Filter>
     </ClInclude>
@@ -124,18 +121,6 @@
       <Filter>message</Filter>
     </ClInclude>
     <ClInclude Include="message\list_multipart_uploads_result.h">
-      <Filter>message</Filter>
-    </ClInclude>
-    <ClInclude Include="message\list_objects_request.h">
-      <Filter>message</Filter>
-    </ClInclude>
-    <ClInclude Include="message\list_objects_result.h">
-      <Filter>message</Filter>
-    </ClInclude>
-    <ClInclude Include="message\list_parts_request.h">
-      <Filter>message</Filter>
-    </ClInclude>
-    <ClInclude Include="message\list_parts_result.h">
       <Filter>message</Filter>
     </ClInclude>
     <ClInclude Include="message\multipart_upload.h">
@@ -231,9 +216,6 @@
     <ClInclude Include="http\http_configuration.h">
       <Filter>http</Filter>
     </ClInclude>
-    <ClInclude Include="message\append_object_result.h">
-      <Filter>message</Filter>
-    </ClInclude>
     <ClInclude Include="base\defer.h">
       <Filter>base</Filter>
     </ClInclude>
@@ -242,6 +224,24 @@
     </ClInclude>
     <ClInclude Include="base\range.h">
       <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="message\list_objects_request.h">
+      <Filter>message</Filter>
+    </ClInclude>
+    <ClInclude Include="message\list_objects_result.h">
+      <Filter>message</Filter>
+    </ClInclude>
+    <ClInclude Include="message\list_parts_request.h">
+      <Filter>message</Filter>
+    </ClInclude>
+    <ClInclude Include="message\append_object_request.h">
+      <Filter>message</Filter>
+    </ClInclude>
+    <ClInclude Include="message\append_object_result.h">
+      <Filter>message</Filter>
+    </ClInclude>
+    <ClInclude Include="message\list_parts_result.h">
+      <Filter>message</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -265,9 +265,6 @@
     </ClCompile>
     <ClCompile Include="utils\utils.cc">
       <Filter>utils</Filter>
-    </ClCompile>
-    <ClCompile Include="message\append_object_request.cc">
-      <Filter>message</Filter>
     </ClCompile>
     <ClCompile Include="message\complete_multipart_upload_request.cc">
       <Filter>message</Filter>
@@ -327,18 +324,6 @@
       <Filter>message</Filter>
     </ClCompile>
     <ClCompile Include="message\list_multipart_uploads_result.cc">
-      <Filter>message</Filter>
-    </ClCompile>
-    <ClCompile Include="message\list_objects_request.cc">
-      <Filter>message</Filter>
-    </ClCompile>
-    <ClCompile Include="message\list_objects_result.cc">
-      <Filter>message</Filter>
-    </ClCompile>
-    <ClCompile Include="message\list_parts_request.cc">
-      <Filter>message</Filter>
-    </ClCompile>
-    <ClCompile Include="message\list_parts_result.cc">
       <Filter>message</Filter>
     </ClCompile>
     <ClCompile Include="message\option_object_result.cc">
@@ -410,9 +395,6 @@
     <ClCompile Include="oss\oss_status.cc">
       <Filter>oss</Filter>
     </ClCompile>
-    <ClCompile Include="message\append_object_result.cc">
-      <Filter>message</Filter>
-    </ClCompile>
     <ClCompile Include="http\http_configuration.cc">
       <Filter>http</Filter>
     </ClCompile>
@@ -443,6 +425,24 @@
     <ClCompile Include="utils\xml_utils.cc">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="message\list_objects_request.cc">
+      <Filter>message</Filter>
+    </ClCompile>
+    <ClCompile Include="message\list_objects_result.cc">
+      <Filter>message</Filter>
+    </ClCompile>
+    <ClCompile Include="message\list_parts_request.cc">
+      <Filter>message</Filter>
+    </ClCompile>
+    <ClCompile Include="message\append_object_result.cc">
+      <Filter>message</Filter>
+    </ClCompile>
+    <ClCompile Include="message\append_object_request.cc">
+      <Filter>message</Filter>
+    </ClCompile>
+    <ClCompile Include="message\list_parts_result.cc">
+      <Filter>message</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt">
@@ -453,5 +453,6 @@
     <None Include="cmake\FindAPR.cmake">
       <Filter>cmake</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

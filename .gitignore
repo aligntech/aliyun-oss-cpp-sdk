@@ -1,0 +1,8 @@
+
+*.obj
+*.tlog
+*.idb
+*.log
+*.db
+.vs/all/v14/.suo
+all.VC.VC.opendb
